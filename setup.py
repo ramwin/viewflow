@@ -4,8 +4,8 @@ from setuptools import setup
 
 
 setup(
-    name='django-viewflow',
-    version='1.6.1',
+    name='django3-viewflow',
+    version='2.0.0',
     author='Mikhail Podgurskiy',
     author_email='kmmbvnr@gmail.com',
     description='Reusable workflow library for django',
@@ -31,7 +31,7 @@ setup(
         'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)',
     ],
     install_requires=[
-        'Django>=1.11',
+        'Django>=3',
         'django-filter>=1.0',
         'django-jsonstore',
         'django-annoying',
