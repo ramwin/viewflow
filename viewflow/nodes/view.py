@@ -1,7 +1,6 @@
 from copy import copy
 
-from django.conf.urls import url
-from django.urls import reverse
+from django.urls import reverse, re_path
 
 from .. import Event, Task, ThisObject, mixins
 from ..activation import StartActivation, ViewActivation, STATUS
@@ -52,7 +51,7 @@ class BaseStart(mixins.TaskDescriptionViewMixin,
         """Start view url."""
         urls = super(BaseStart, self).urls()
         urls.append(
-            url(r'^{}/$'.format(self.name), self.view, {'flow_task': self}, name=self.name))
+            re_path(r'^{}/$'.format(self.name), self.view, {'flow_task': self}, name=self.name))
         return urls
 
 
@@ -157,8 +156,10 @@ class BaseView(mixins.TaskDescriptionViewMixin,
         """Add `/<process_pk>/<task_pk>/` url."""
         urls = super(BaseView, self).urls()
         urls.append(
-            url(r'^(?P<process_pk>\d+)/{}/(?P<task_pk>\d+)/$'.format(self.name),
-                self.view, {'flow_task': self}, name=self.name)
+            re_path(
+                r'^(?P<process_pk>\d+)/{}/(?P<task_pk>\d+)/$'.format(self.name),
+                self.view, {'flow_task': self}, name=self.name
+            )
         )
         return urls
 
@@ -247,9 +248,9 @@ class View(mixins.PermissionMixin, BaseView):
     def urls(self):
         """Add /assign/ and /unassign/ task urls."""
         urls = super(View, self).urls()
-        urls.append(url(r'^(?P<process_pk>\d+)/{}/(?P<task_pk>\d+)/assign/$'.format(self.name),
+        urls.append(re_path(r'^(?P<process_pk>\d+)/{}/(?P<task_pk>\d+)/assign/$'.format(self.name),
                     self.assign_view, {'flow_task': self}, name="{}__assign".format(self.name)))
-        urls.append(url(r'^(?P<process_pk>\d+)/{}/(?P<task_pk>\d+)/unassign/$'.format(self.name),
+        urls.append(re_path(r'^(?P<process_pk>\d+)/{}/(?P<task_pk>\d+)/unassign/$'.format(self.name),
                     self.unassign_view, {'flow_task': self}, name="{}__unassign".format(self.name)))
         return urls
 
