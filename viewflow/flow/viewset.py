@@ -1,4 +1,5 @@
-from django.conf.urls import url, include
+from django.conf.urls import include
+from django.urls import path, re_path
 
 from .views import (
     CancelProcessView, DetailProcessView, ProcessListView,
@@ -58,7 +59,7 @@ class FlowViewSet(object):
 
     def _create_url_entry(self, url_entry):
         regexp, view, name = url_entry
-        return url(regexp, view, name=name)
+        return re_path(regexp, view, name=name)
 
     def get_list_urls(self):
         """Collect urls from viewset class."""
@@ -72,6 +73,6 @@ class FlowViewSet(object):
     def urls(self):
         """Collect the viewset and flow urls."""
         return [
-            url('', include(self.get_list_urls()), {'flow_class': self.flow_class}),
+            path('', include(self.get_list_urls()), {'flow_class': self.flow_class}),
             self.flow_class.instance.urls
         ]
