@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'material.frontend',
     'viewflow',
     'viewflow.frontend',
-    'demo.helloworld',
+    'helloworld',
 ]
 
 MIDDLEWARE = [
