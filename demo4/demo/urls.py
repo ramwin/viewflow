@@ -1,4 +1,4 @@
-"""demo3 URL Configuration
+"""demo URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.1/topics/http/urls/
@@ -14,9 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
+from django.conf.urls import include, url
+from django.views import generic
+from material.frontend import urls as frontend_urls
 
 urlpatterns = [
+    url(r'^$', generic.RedirectView.as_view(url='/workflow/', permanent=False)),
+    url(r'', include(frontend_urls)),
     path('admin/', admin.site.urls),
-    path('helloworld/', include('helloworld.urls')),
 ]

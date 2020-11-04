@@ -1,21 +1,23 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-# Xiang Wang @ 2020-11-03 11:39:17
+# Xiang Wang @ 2020-11-04 22:53:25
 
 from viewflow import flow
 from viewflow.base import this, Flow
 from viewflow.flow.views import CreateProcessView, UpdateProcessView
+from viewflow import frontend
 
 from .models import HelloWorldProcess
-from .views import HelloWorldViewSet
 
 
+@frontend.register
 class HelloWorldFlow(Flow):
     process_class = HelloWorldProcess
 
     start = (
         flow.Start(
-            HelloWorldViewSet.as_view({'post':'create'}),
+            CreateProcessView,
+            fields=["text"]
         ).Permission(
             auto_create=True
         ).Next(this.approve)
