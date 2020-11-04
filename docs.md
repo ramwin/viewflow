@@ -46,6 +46,43 @@ FlowMixin:
         self.activation.done()
 ```
 
+## Start
+1. decorators.py里面，初始化
+```
+activation.initialize(flow_task, None)
+```
+2. viewflow/flowviews/start.py 里面dispatch
+```
+self.activation.has_perm(request.user)
+self.activation.prepare()
+self.dispatch
+```
+3. django/views/generic/edit.py 里面的post
+```
+self.object = self.get_object()  # Start.py里面的，直接返回Process
+return super().post(request, *args, **kwargs)
+```
+4. get_object
+```
+```
+5. post
+```
+form = self.get_form()
+if form.is_valid():
+    return self.form_valid(form)
+```
+6. viewflow/flow/views/start.py form_valid
+```
+super(StartFlowMixin, self).form_valid(*args, **kwargs)
+self.activation_done(*args, **kwargs)
+return HttpResponseRedirect(self.get_success_url())
+```
+7. viewflow/flow/views/start.py activation_done
+```
+self.activation.done()
+self.success(_('Process {process} has been started.'))
+```
+
 # Logic
 ```
 IfActivation

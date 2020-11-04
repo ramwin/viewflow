@@ -168,15 +168,19 @@ def flow_start_view(view):
     @transaction.atomic
     @functools.wraps(view)
     def _wrapper(request, flow_class, flow_task, **kwargs):
+        print("flow_start_view._wrapper")
+        breakpoint()
         exc = True
         try:
             try:
                 activation = flow_task.activation_class()
+                print("开始 activation.initialize(flow_task, None)")
                 activation.initialize(flow_task, None)
 
                 request.activation = activation
                 request.process = activation.process
                 request.task = activation.task
+                print("执行 view")
                 return view(request, **kwargs)
             except:
                 exc = False
