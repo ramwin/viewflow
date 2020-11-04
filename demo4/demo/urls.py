@@ -19,6 +19,9 @@ from django.conf.urls import include, url
 from django.views import generic
 from material.frontend import urls as frontend_urls
 
+print("import demo4.urls")
+print(f"frontend_urls: {frontend_urls}")
+
 urlpatterns = [
     url(r'^$', generic.RedirectView.as_view(url='/workflow/', permanent=False)),
     url(r'', include(frontend_urls)),
